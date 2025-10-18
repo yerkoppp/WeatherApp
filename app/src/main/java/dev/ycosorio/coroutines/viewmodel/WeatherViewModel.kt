@@ -50,6 +50,7 @@ class WeatherViewModel : ViewModel() {
                 _uiState.value = WeatherUiState(weatherData = data, statusMessage = "✅ Datos de $cityName cargados")
             } catch (e: CancellationException) {
                 _uiState.value = _uiState.value.copy(isLoading = false, statusMessage = "❌ Operación cancelada")
+                throw e
             } catch (e: Exception) {
                 // Maneja cualquier otro error (ej: ciudad no encontrada, sin internet)
                 _uiState.value = _uiState.value.copy(isLoading = false, statusMessage = "❌ Error: ${e.message}")
@@ -77,6 +78,7 @@ class WeatherViewModel : ViewModel() {
 
             } catch (e: CancellationException) {
                 _uiState.value = _uiState.value.copy(isLoading = false, statusMessage = "❌ Carga múltiple cancelada")
+                throw e
             } catch (e: Exception) {
                 _uiState.value = _uiState.value.copy(isLoading = false, statusMessage = "❌ Error: ${e.message}")
             }

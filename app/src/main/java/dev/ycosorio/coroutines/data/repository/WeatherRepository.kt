@@ -3,6 +3,7 @@ package dev.ycosorio.coroutines.data.repository
 import dev.ycosorio.coroutines.BuildConfig
 import dev.ycosorio.coroutines.data.WeatherData
 import dev.ycosorio.coroutines.data.remote.WeatherApiService
+import kotlinx.coroutines.delay
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -34,7 +35,9 @@ class WeatherRepository {
      * Esta es la función principal que realiza la llamada de red.
      */
     suspend fun fetchCityWeather(cityName: String): WeatherData {
-         val response = apiService.getWeatherByCity(cityName, apiKey)
+
+        delay(3000) // Simula 3 segundos de carga para demostración
+        val response = apiService.getWeatherByCity(cityName, apiKey)
 
         // Mapeamos la respuesta de la API a nuestro modelo de datos interno (WeatherData).
         return WeatherData(
@@ -46,19 +49,5 @@ class WeatherRepository {
         )
     }
 
-    /**
-     * Obtiene el clima de una ciudad por defecto (ej. Santiago).
-     */
-    suspend fun fetchWeatherData(): WeatherData {
-        return fetchCityWeather("Santiago")
-    }
 
-    /**
-     * Obtiene el clima de múltiples ciudades.
-     */
-    suspend fun fetchMultipleCitiesWeather(cities: List<String>): List<WeatherData> {
-        return cities.map { cityName ->
-            fetchCityWeather(cityName)
-        }
-    }
 }
